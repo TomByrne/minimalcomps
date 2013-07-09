@@ -58,7 +58,7 @@ package com.bit101.components
 			{
 				addEventListener(MouseEvent.CLICK, defaultHandler);
 			}
-			this.label = label;
+			this.labelText = label;
 		}
 		
 		/**
@@ -218,12 +218,12 @@ package com.bit101.components
 		/**
 		 * Sets / gets the label text shown on this Pushbutton.
 		 */
-		public function set label(str:String):void
+		public function set labelText(str:String):void
 		{
 			_labelText = str;
 			draw();
 		}
-		public function get label():String
+		public function get labelText():String
 		{
 			return _labelText;
 		}
@@ -254,6 +254,10 @@ package com.bit101.components
 			return _toggle;
 		}
 		
+		public function get label():Label
+		{
+			return _label;
+		}
 		
 	}
 }

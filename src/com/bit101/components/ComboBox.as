@@ -101,19 +101,19 @@ package com.bit101.components
 		{
 			if(selectedItem == null)
 			{
-				_labelButton.label = _defaultLabel;
+				_labelButton.labelText = _defaultLabel;
 			}
 			else if(selectedItem is String)
 			{
-				_labelButton.label = selectedItem as String;
+				_labelButton.labelText = selectedItem as String;
 			}
 			else if(selectedItem.hasOwnProperty("label") && selectedItem.label is String)
 			{
-				_labelButton.label = selectedItem.label;
+				_labelButton.labelText = selectedItem.label;
 			}
 			else
 			{
-				_labelButton.label = selectedItem.toString();
+				_labelButton.labelText = selectedItem.toString();
 			}
 		}
 		
@@ -124,7 +124,7 @@ package com.bit101.components
 		{
 			if(_stage.contains(_list)) _stage.removeChild(_list);
 			_stage.removeEventListener(MouseEvent.CLICK, onStageClick);
-			_dropDownButton.label = "+";			
+			_dropDownButton.labelText = "+";			
 		}
 		
 
@@ -221,7 +221,7 @@ package com.bit101.components
 				_list.move(point.x, point.y);
 				_stage.addChild(_list);
 				_stage.addEventListener(MouseEvent.CLICK, onStageClick);
-				_dropDownButton.label = "-";
+				_dropDownButton.labelText = "-";
 			}
 			else
 			{
@@ -248,7 +248,7 @@ package com.bit101.components
 		protected function onSelect(event:Event):void
 		{
 			_open = false;
-			_dropDownButton.label = "+";
+			_dropDownButton.labelText = "+";
 			if(stage != null && stage.contains(_list))
 			{
 				stage.removeChild(_list);

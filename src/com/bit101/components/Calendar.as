@@ -164,7 +164,7 @@ package com.bit101.components
 			{
 				var btn:PushButton = _dayButtons[i + startDay];
 				btn.visible = true;
-				btn.label = (i + 1).toString();
+				btn.labelText = (i + 1).toString();
 				btn.tag = i + 1;
 				if(i + 1 == _day)
 				{
