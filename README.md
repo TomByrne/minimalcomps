@@ -1,3 +1,11 @@
+# This fork
+Changes to facilitate touch-devices, including:
+- larger scroll bars
+- drag scrolling in lists
+- Scrollable Accordion
+
+As well as assorted bug fixes
+
 # minimalcomps
 ### Minimal ActionScript 3.0 UI Components for Flash
 http://www.minimalcomps.com

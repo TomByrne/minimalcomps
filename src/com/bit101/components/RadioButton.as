@@ -201,14 +201,19 @@ package com.bit101.components
 		/**
 		 * Sets / gets the label text shown on this CheckBox.
 		 */
-		public function set label(str:String):void
+		public function set labelText(str:String):void
 		{
 			_labelText = str;
 			invalidate();
 		}
-		public function get label():String
+		public function get labelText():String
 		{
 			return _labelText;
+		}
+		
+		public function get label():Label
+		{
+			return _label;
 		}
 
 		/**

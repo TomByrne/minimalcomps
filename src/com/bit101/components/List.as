@@ -1,4 +1,4 @@
-﻿/**
+/**
  * List.as
  * Keith Peters
  * version 0.9.10
@@ -25,6 +25,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+ 
+ 
+ /**
+  * Tom Byrne edits - 23/10/2012
+  * - added calls in to items setter
+  * 
+  */
 
 package com.bit101.components
 {
@@ -47,7 +54,9 @@ package com.bit101.components
 		protected var _alternateColor:uint = Style.LIST_ALTERNATE;
 		protected var _selectedColor:uint = Style.LIST_SELECTED;
 		protected var _rolloverColor:uint = Style.LIST_ROLLOVER;
-		protected var _alternateRows:Boolean = false;
+		protected var _alternateRows : Boolean = false;
+		private var _lastDragVal : Number;
+		private var _dragging : Boolean;
 		
 		/**
 		 * Constructor
@@ -78,6 +87,7 @@ package com.bit101.components
 			setSize(100, 100);
 			addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
             addEventListener(Event.RESIZE, onResize);
+			addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
             makeListItems();
             fillItems();
 		}
@@ -206,7 +216,7 @@ package com.bit101.components
 			_panel.draw();
 			
 			// scrollbar
-			_scrollbar.x = _width - 10;
+			_scrollbar.x = _width - _scrollbar.width;
 			var contentHeight:Number = _items.length * _listItemHeight;
 			_scrollbar.setThumbPercent(_height / contentHeight); 
 			var pageSize:Number = Math.floor(_height / _listItemHeight);
@@ -319,6 +329,27 @@ package com.bit101.components
 		{
 			_scrollbar.value -= event.delta;
             fillItems();
+		}
+		
+
+		private function onMouseDown(event : MouseEvent) : void {
+			_lastDragVal = this.mouseY;
+			
+			stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+		}
+		private function onMouseMove(event : MouseEvent) : void {
+			if(_dragging){
+				_scrollbar.value += (_lastDragVal - this.mouseY)/_listItemHeight;
+				fillItems();
+				_lastDragVal = this.mouseY;
+			}else if(Math.abs(_lastDragVal-this.mouseY)>6){
+				_dragging = true;
+			}
+		}
+		private function onMouseUp(event : MouseEvent) : void {
+			stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+			stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 		}
 
         protected function onResize(event:Event):void
@@ -434,6 +465,11 @@ package com.bit101.components
 		{
 			_items = value;
 			invalidate();
+			
+			// TB add begin
+			makeListItems();
+      fillItems();
+	  		// TB add end
 		}
 		public function get items():Array
 		{

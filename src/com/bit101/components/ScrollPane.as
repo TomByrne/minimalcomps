@@ -101,8 +101,8 @@ package com.bit101.components
 			var vPercent:Number = (_height - 10) / content.height;
 			var hPercent:Number = (_width - 10) / content.width; 
 			
-			_vScrollbar.x = width - 10;
-			_hScrollbar.y = height - 10;
+			_vScrollbar.x = width - _vScrollbar.width;
+			_hScrollbar.y = height - _hScrollbar.height;
 			
 			if(hPercent >= 1)
 			{
@@ -111,8 +111,8 @@ package com.bit101.components
 			}
 			else
 			{
-				_vScrollbar.height = height - 10;
-				_mask.height = height - 10;
+				_vScrollbar.height = height - _hScrollbar.height;
+				_mask.height = height - _hScrollbar.height;
 			}
 			if(vPercent >= 1)
 			{
@@ -121,15 +121,15 @@ package com.bit101.components
 			}
 			else
 			{
-				_hScrollbar.width = width - 10;
-				_mask.width = width - 10;
+				_hScrollbar.width = width - _vScrollbar.width;
+				_mask.width = width - _vScrollbar.width;
 			}
 			_vScrollbar.setThumbPercent(vPercent);
-			_vScrollbar.maximum = Math.max(0, content.height - _height + 10);
+			_vScrollbar.maximum = Math.max(0, content.height - _height + _hScrollbar.height);
 			_vScrollbar.pageSize = _height - 10;
 			
 			_hScrollbar.setThumbPercent(hPercent);
-			_hScrollbar.maximum = Math.max(0, content.width - _width + 10);
+			_hScrollbar.maximum = Math.max(0, content.width - _width + _vScrollbar.width);
 			_hScrollbar.pageSize = _width - 10;
 			
 			_corner.x = width - 10;

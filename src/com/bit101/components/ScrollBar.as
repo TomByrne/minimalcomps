@@ -38,6 +38,8 @@ package com.bit101.components
 	[Event(name="change", type="flash.events.Event")]
 	public class ScrollBar extends Component
 	{
+		protected const BAR_WIDTH:int = 20;
+		
 		protected const DELAY_TIME:int = 500;
 		protected const REPEAT_TIME:int = 100; 
 		protected const UP:String = "up";
@@ -77,45 +79,47 @@ package com.bit101.components
 		 */
 		override protected function addChildren():void
 		{
-			_scrollSlider = new ScrollSlider(_orientation, this, 0, 10, onChange);
+			_scrollSlider = new ScrollSlider(_orientation, this, 0, BAR_WIDTH, onChange);
 			_upButton = new PushButton(this, 0, 0, "");
 			_upButton.addEventListener(MouseEvent.MOUSE_DOWN, onUpClick);
-			_upButton.setSize(10, 10);
+			_upButton.setSize(BAR_WIDTH, BAR_WIDTH);
 			var upArrow:Shape = new Shape();
 			_upButton.addChild(upArrow);
 			
 			_downButton = new PushButton(this, 0, 0, "");
 			_downButton.addEventListener(MouseEvent.MOUSE_DOWN, onDownClick);
-			_downButton.setSize(10, 10);
+			_downButton.setSize(BAR_WIDTH, BAR_WIDTH);
 			var downArrow:Shape = new Shape();
 			_downButton.addChild(downArrow);
+			
+			var hw:Number = BAR_WIDTH/2;
 			
 			if(_orientation == Slider.VERTICAL)
 			{
 				upArrow.graphics.beginFill(Style.DROPSHADOW, 0.5);
-				upArrow.graphics.moveTo(5, 3);
-				upArrow.graphics.lineTo(7, 6);
-				upArrow.graphics.lineTo(3, 6);
+				upArrow.graphics.moveTo(hw, hw-2);
+				upArrow.graphics.lineTo(hw+2, hw+1);
+				upArrow.graphics.lineTo(hw-2, hw+1);
 				upArrow.graphics.endFill();
 				
 				downArrow.graphics.beginFill(Style.DROPSHADOW, 0.5);
-				downArrow.graphics.moveTo(5, 7);
-				downArrow.graphics.lineTo(7, 4);
-				downArrow.graphics.lineTo(3, 4);
+				downArrow.graphics.moveTo(hw, hw+2);
+				downArrow.graphics.lineTo(hw+2, hw-1);
+				downArrow.graphics.lineTo(hw-2, hw-1);
 				downArrow.graphics.endFill();
 			}
 			else
 			{
 				upArrow.graphics.beginFill(Style.DROPSHADOW, 0.5);
-				upArrow.graphics.moveTo(3, 5);
-				upArrow.graphics.lineTo(6, 7);
-				upArrow.graphics.lineTo(6, 3);
+				upArrow.graphics.moveTo(hw-2, hw);
+				upArrow.graphics.lineTo(hw+1, hw+2);
+				upArrow.graphics.lineTo(hw-1, hw-2);
 				upArrow.graphics.endFill();
 				
 				downArrow.graphics.beginFill(Style.DROPSHADOW, 0.5);
-				downArrow.graphics.moveTo(7, 5);
-				downArrow.graphics.lineTo(4, 7);
-				downArrow.graphics.lineTo(4, 3);
+				downArrow.graphics.moveTo(hw+2, hw);
+				downArrow.graphics.lineTo(hw-1, hw+2);
+				downArrow.graphics.lineTo(hw-1, hw-2);
 				downArrow.graphics.endFill();
 			}
 
@@ -130,11 +134,11 @@ package com.bit101.components
 			super.init();
 			if(_orientation == Slider.HORIZONTAL)
 			{
-				setSize(100, 10);
+				setSize(100, BAR_WIDTH);
 			}
 			else
 			{
-				setSize(10, 100);
+				setSize(BAR_WIDTH, 100);
 			}
 			_delayTimer = new Timer(DELAY_TIME, 1);
 			_delayTimer.addEventListener(TimerEvent.TIMER_COMPLETE, onDelayComplete);
@@ -176,19 +180,19 @@ package com.bit101.components
 			if(_orientation == Slider.VERTICAL)
 			{
 				_scrollSlider.x = 0;
-				_scrollSlider.y = 10;
-				_scrollSlider.width = 10;
-				_scrollSlider.height = _height - 20;
+				_scrollSlider.y = BAR_WIDTH;
+				_scrollSlider.width = BAR_WIDTH;
+				_scrollSlider.height = _height - (BAR_WIDTH*2);
 				_downButton.x = 0;
-				_downButton.y = _height - 10;
+				_downButton.y = _height - BAR_WIDTH;
 			}
 			else
 			{
-				_scrollSlider.x = 10;
+				_scrollSlider.x = BAR_WIDTH;
 				_scrollSlider.y = 0;
-				_scrollSlider.width = _width - 20;
-				_scrollSlider.height = 10;
-				_downButton.x = _width - 10;
+				_scrollSlider.width = _width - (BAR_WIDTH*2);
+				_scrollSlider.height = BAR_WIDTH;
+				_downButton.x = _width - BAR_WIDTH;
 				_downButton.y = 0;
 			}
 			_scrollSlider.draw();

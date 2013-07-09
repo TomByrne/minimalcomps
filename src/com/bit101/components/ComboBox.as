@@ -28,6 +28,7 @@
 
 package com.bit101.components
 {
+	import flash.geom.Matrix;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Stage;
 	import flash.events.Event;
@@ -216,6 +217,7 @@ package com.bit101.components
 					point.y = -_numVisibleItems * _list.listItemHeight;
 				}
 				point = this.localToGlobal(point);
+				_list.transform.matrix = this.transform.concatenatedMatrix;
 				_list.move(point.x, point.y);
 				_stage.addChild(_list);
 				_stage.addEventListener(MouseEvent.CLICK, onStageClick);
