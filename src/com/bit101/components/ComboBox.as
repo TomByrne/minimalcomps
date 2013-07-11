@@ -28,6 +28,7 @@
 
 package com.bit101.components
 {
+	import flash.display.DisplayObject;
 	import flash.geom.Matrix;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Stage;
@@ -237,9 +238,18 @@ package com.bit101.components
 			// ignore clicks within buttons or list
 			if(event.target == _dropDownButton || event.target == _labelButton) return;
 			if(new Rectangle(_list.x, _list.y, _list.width, _list.height).contains(event.stageX, event.stageY)) return;
+			if(isDescendant(event.target as DisplayObject, this))return;
+			if(isDescendant(event.target as DisplayObject, _list))return;
 			
 			_open = false;
 			removeList();
+		}
+		public function isDescendant(child:DisplayObject, parent:DisplayObjectContainer) : Boolean {
+			while(child.parent){
+				if(child.parent==parent)return true;
+				child = child.parent;
+			}
+			return false;
 		}
 		
 		/**
