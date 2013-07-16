@@ -125,7 +125,8 @@ package com.bit101.components
 		{
 			if(_stage.contains(_list)) _stage.removeChild(_list);
 			_stage.removeEventListener(MouseEvent.CLICK, onStageClick);
-			_dropDownButton.labelText = "+";			
+			_dropDownButton.labelText = "+";
+			removeEventListener(Event.ENTER_FRAME, onEnterFrame);		
 		}
 		
 
@@ -208,26 +209,35 @@ package com.bit101.components
 			_open = !_open;
 			if(_open)
 			{
-				var point:Point = new Point();
-				if(_openPosition == BOTTOM)
-				{
-					point.y = _height;
-				}
-				else
-				{
-					point.y = -_numVisibleItems * _list.listItemHeight;
-				}
-				point = this.localToGlobal(point);
-				_list.transform.matrix = this.transform.concatenatedMatrix;
-				_list.move(point.x, point.y);
+				alignList();
 				_stage.addChild(_list);
 				_stage.addEventListener(MouseEvent.CLICK, onStageClick);
 				_dropDownButton.labelText = "-";
+				addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			}
 			else
 			{
 				removeList();
 			}
+		}
+		
+		private function onEnterFrame(e:Event):void {
+			alignList();
+		}
+		
+		private function alignList():void {
+			var point:Point = new Point();
+			if(_openPosition == BOTTOM)
+			{
+				point.y = _height;
+			}
+			else
+			{
+				point.y = -_numVisibleItems * _list.listItemHeight;
+			}
+			point = this.localToGlobal(point);
+			_list.transform.matrix = this.transform.concatenatedMatrix;
+			_list.move(point.x, point.y);
 		}
 		
 		/**
