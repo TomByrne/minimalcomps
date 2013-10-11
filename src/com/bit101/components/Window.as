@@ -54,6 +54,8 @@ package com.bit101.components
 		protected var _closeButton:PushButton;
 		protected var _grips:Shape;
 		
+		private var _offsetX:Number;
+		private var _offsetY:Number;
 		
 		/**
 		 * Constructor
@@ -190,11 +192,31 @@ package com.bit101.components
 		{
 			if(_draggable)
 			{
-				this.startDrag();
+				_offsetX = event.localX;
+				_offsetY = event.localY;
+				stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 				stage.addEventListener(MouseEvent.MOUSE_UP, onMouseGoUp);
 				parent.addChild(this); // move to top
 			}
 			dispatchEvent(new Event(Event.SELECT));
+		}
+		
+		protected function onMouseMove(event:MouseEvent):void
+		{
+			var minX:Number =  -parent.transform.concatenatedMatrix.tx;
+			var minY:Number =  -parent.transform.concatenatedMatrix.ty;
+			
+			var x:Number = parent.mouseX - _offsetX;
+			var y:Number = parent.mouseY - _offsetY;
+			
+			if (x < minX) x = minX;
+			else if (x > minX + stage.stageWidth - _width) x = minX + stage.stageWidth - _width;
+			
+			if (y < minY) y = minY;
+			else if (y > minY + stage.stageHeight - _height) y = minY + stage.stageHeight - _height;
+			
+			this.x = x;
+			this.y = y;
 		}
 		
 		/**
@@ -203,8 +225,9 @@ package com.bit101.components
 		 */
 		protected function onMouseGoUp(event:MouseEvent):void
 		{
-			this.stopDrag();
+			stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseGoUp);
+			dispatchEvent(new Event(Event.LOCATION_CHANGE));
 		}
 		
 		protected function onMinimize(event:MouseEvent):void
