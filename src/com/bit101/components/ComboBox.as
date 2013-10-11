@@ -100,6 +100,7 @@ package com.bit101.components
 		 */
 		protected function setLabelButtonLabel():void
 		{
+			var labelField:String = _list.labelField || "label";
 			if(selectedItem == null)
 			{
 				_labelButton.labelText = _defaultLabel;
@@ -108,9 +109,9 @@ package com.bit101.components
 			{
 				_labelButton.labelText = selectedItem as String;
 			}
-			else if(selectedItem.hasOwnProperty("label") && selectedItem.label is String)
+			else if(selectedItem.hasOwnProperty(labelField) && selectedItem[labelField] is String)
 			{
-				_labelButton.labelText = selectedItem.label;
+				_labelButton.labelText = selectedItem[labelField];
 			}
 			else
 			{
@@ -308,6 +309,19 @@ package com.bit101.components
 		public function get selectedIndex():int
 		{
 			return _list.selectedIndex;
+		}
+		
+		
+		/**
+		 * Sets / gets the field which contains the label within the data.
+		 */
+		public function set labelField(value:String):void
+		{
+			_list.labelField = value;
+		}
+		public function get labelField():String
+		{
+			return _list.labelField;
 		}
 		
 		/**

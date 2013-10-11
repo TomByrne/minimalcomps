@@ -57,6 +57,7 @@ package com.bit101.components
 		protected var _alternateRows : Boolean = false;
 		private var _lastDragVal : Number;
 		private var _dragging : Boolean;
+		private var _labelField:String;
 		
 		/**
 		 * Constructor
@@ -132,6 +133,12 @@ package com.bit101.components
 				item.selectedColor = _selectedColor;
 				item.rolloverColor = _rolloverColor;
 				item.addEventListener(MouseEvent.CLICK, onSelect);
+				
+				if(labelField){
+					try {
+						item["labelField"] = labelField;
+					}catch (e:Error) { }
+				}
 			}
 		}
 
@@ -250,8 +257,8 @@ package com.bit101.components
 			index = Math.min(_items.length, index);
 			_items.splice(index, 0, item);
 			invalidate();
-      makeListItems();
-      fillItems();
+			makeListItems();
+			fillItems();
 		}
 		
 		/**
@@ -273,8 +280,8 @@ package com.bit101.components
 			if(index < 0 || index >= _items.length) return;
 			_items.splice(index, 1);
 			invalidate();
-      makeListItems();
-      fillItems();
+			makeListItems();
+			fillItems();
 		}
 		
 		/**
@@ -381,6 +388,26 @@ package com.bit101.components
 		public function get selectedIndex():int
 		{
 			return _selectedIndex;
+		}
+		
+		/**
+		 * Sets / gets the field which contains the label within the data.
+		 */
+		public function set labelField(value:String):void
+		{
+			if (_labelField == value) return;
+			
+			_labelField = value;
+			for(var i:int = 0; i < _itemHolder.numChildren; i++)
+			{
+				try {
+					_itemHolder.getChildAt(i)["labelField"] = labelField;
+				}catch (e:Error) { }
+			}
+		}
+		public function get labelField():String
+		{
+			return _labelField;
 		}
 		
 		/**

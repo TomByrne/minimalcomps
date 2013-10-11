@@ -34,6 +34,8 @@ package com.bit101.components
 	
 	public class ListItem extends Component
 	{
+		public var labelField:String = "label";
+		
 		protected var _data:Object;
 		protected var _label:Label;
 		protected var _defaultColor:uint = 0xffffff;
@@ -108,9 +110,9 @@ package com.bit101.components
 			{
                 _label.text = _data as String;
 			}
-			else if(_data.hasOwnProperty("label") && _data.label is String)
+			else if(_data.hasOwnProperty(labelField) && _data[labelField] is String)
 			{
-				_label.text = _data.label;
+				_label.text = _data[labelField];
 			}
 			else
             {

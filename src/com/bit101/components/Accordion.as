@@ -38,6 +38,7 @@ package com.bit101.components
 		protected var _winWidth:Number = 100;
 		protected var _winHeight:Number = 100;
 		protected var _vbox:VBox;
+		protected var _selectedWindow:int = 0;
 		
 		/**
 		 * Constructor
@@ -152,13 +153,8 @@ package com.bit101.components
 			var window:Window = event.target as Window;
 			if(window.minimized)
 			{
-				for(var i:int = 0; i < _windows.length; i++)
-				{
-					_windows[i].minimized = true;
-				}
-				window.minimized = false;
+				selectedWindow = _windows.indexOf(window);
 			}
-			_vbox.draw();
 		}
 		
 		public override function set width(w:Number):void
@@ -173,5 +169,24 @@ package com.bit101.components
 			super.height = h;
 		}
 		
+		public function get selectedWindow():int
+		{
+			return _selectedWindow;
+		}
+		public function set selectedWindow(value:int):void
+		{
+			if (_selectedWindow == value) return;
+			
+			_selectedWindow = value;
+			
+			for(var i:int = 0; i < _windows.length; i++)
+			{
+				var window:Window = _windows[i];
+				window.minimized = (i!=_selectedWindow);
+			}
+			dispatchEvent(new Event(Event.SELECT));
+			_vbox.draw();
+			
+		}
 	}
 }
